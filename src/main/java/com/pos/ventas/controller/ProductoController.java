@@ -2,6 +2,7 @@ package com.pos.ventas.controller;
 
 import com.pos.ventas.model.Producto;
 import com.pos.ventas.repository.ProductoRepository;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,13 +24,14 @@ public class ProductoController {
         return repo.findAll();
     }
 
-    // GUARDAR
+    // GUARDAR — @Valid activa las validaciones del modelo
     @PostMapping
-    public Producto guardar(@RequestBody Producto p) {
-        return repo.save(p);
+    public ResponseEntity<?> guardar(@Valid @RequestBody Producto p) {
+        Producto guardado = repo.save(p);
+        return ResponseEntity.ok(guardado);
     }
 
-    // BUSCAR POR ID — devuelve 404 si no existe
+    // BUSCAR POR ID
     @GetMapping("/{id}")
     public ResponseEntity<Producto> obtener(@PathVariable Long id) {
         return repo.findById(id)

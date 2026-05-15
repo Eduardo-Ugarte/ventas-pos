@@ -1,6 +1,7 @@
 package com.pos.ventas.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity
 public class Producto {
@@ -10,15 +11,18 @@ public class Producto {
     private Long id;
 
     @Column(nullable = false)
+    @NotBlank(message = "El nombre no puede estar vacío")
+    @Size(min = 1, max = 100, message = "El nombre debe tener entre 1 y 100 caracteres")
     private String nombre;
 
     @Column(nullable = false)
+    @DecimalMin(value = "0.01", message = "El precio debe ser mayor a 0")
     private double precio;
 
     @Column(nullable = false)
+    @Min(value = 0, message = "El stock no puede ser negativo")
     private int stock;
 
-    // getters y setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
